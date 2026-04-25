@@ -21,6 +21,7 @@ import { fetchCharacters, setQueryString, listSelectors } from '@/store/listSlic
 import { CharacterItem, RootStackParamList } from '@/types';
 import { colors } from '@/theme/colors';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useFocusEffect } from '@react-navigation/native';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -66,13 +67,14 @@ export default function HomeScreen({ navigation }: Props) {
     };
   }, []);
 
-  // initial load
-  useEffect(() => {
-    if (items.length === 0 && !isLoading) {
-      fetchPromise.current = dispatch(fetchCharacters({ page: 1, searchStr: query }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // refetch if screen is focused and cache is empty
+  useFocusEffect(
+    React.useCallback(() => {
+      if (items.length === 0 && !isLoading && !errMsg && canLoadMore) {
+        fetchPromise.current = dispatch(fetchCharacters({ page: 1, searchStr: query }));
+      }
+    }, [items.length, isLoading, errMsg, canLoadMore, query, dispatch])
+  );
 
   // hardware back button interceptor
   useEffect(() => {

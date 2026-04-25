@@ -45,16 +45,16 @@ A production-ready React Native application built to demonstrate clean architect
 
 ## 🏗️ Key Technical Decisions
 - **Redux Toolkit `createEntityAdapter`**: Instead of storing the paginated list as a simple array (which requires O(N) `.find()` checks to prevent duplicates during infinite scroll), the state is normalized into a dictionary. This guarantees O(1) lookups and flawless deduplication.
+- **Centralized Design System**: Zero "magic numbers" exist in the stylesheets. A complete `theme` directory handles `colors`, `spacing`, `typography`, and `layout` constants, ensuring pixel-perfect consistency across screens.
+- **Path Aliases**: Integrated Babel and TypeScript path aliases (`@/...`) for significantly cleaner and more refactor-resilient imports.
 - **Strict TypeScript**: Navigation props (`NativeStackScreenProps`) and state structures are strictly typed. There are zero `any` types in the core logic.
-- **AbortControllers**: Rapidly typing in the search bar fires multiple requests. The custom `api` service implements `AbortSignal`s to cancel previous pending requests, ensuring the final resolved state matches the user's latest input.
-- **FlatList Micro-optimizations**: To ensure 60fps scrolling on low-end Androids, the `FlatList` utilizes `initialNumToRender`, `maxToRenderPerBatch`, `windowSize`, and precisely calculates geometry via `getItemLayout`.
+- **AbortControllers & Synchronous Locks**: Rapidly typing in the search bar fires multiple requests; the custom API service implements `AbortSignal`s to cancel previous pending requests. Additionally, a strict synchronous `useRef` lock prevents `FlatList` from firing multiple simultaneous pagination requests when scrolling aggressively (which prevents 429 Rate Limit errors).
+- **FlatList Micro-optimizations**: To ensure 60fps scrolling on low-end Androids, the `FlatList` utilizes `initialNumToRender`, `maxToRenderPerBatch`, `windowSize`, and precisely calculates geometry via `getItemLayout`. The individual `renderItem` is extracted to a strictly memoized `<CharacterCard />` to prevent unnecessary sub-tree re-renders.
 - **FastImage for Caching**: While the prompt requested "core React Native components only", `react-native-fast-image` was explicitly integrated because the standard `<Image />` component notoriously leaks memory and flickers when rendering hundreds of network images in a `FlatList`. This was a conscious decision prioritizing production-grade performance over strict adherence to an anti-pattern.
-- **Lifecycle Management**: The app tracks foreground/background states via `AppState` and intelligently resumes network availability checks. Transient states (like `isLoading`) are explicitly blacklisted from `redux-persist` to prevent infinite spinners on cold starts.
+- **Lifecycle Management**: The app tracks foreground/background states via `AppState` and intelligently resumes network availability checks. React Navigation's `useFocusEffect` is used to natively re-fetch data seamlessly when returning to the home screen after manually clearing the Redux cache.
 
-## 🔮 Improvements with More Time
-If given more time, I would elevate the app to a 10/10 standard by implementing:
-1. **RTK Query**: Rip out the manual `createAsyncThunk` boilerplate and replace it with RTK Query for built-in caching, polling, and lifecycle management.
-2. **Design System & Theme Object**: Move away from hardcoded hex codes and layout numbers into a centralized `theme` provider (e.g., `theme.spacing.sm`).
-3. **Componentization**: Extract the `renderItem` inline arrow function into a highly decoupled `<CharacterCard />` wrapped in `React.memo` to prevent unnecessary sub-tree re-renders on global state changes.
-4. **Skeleton Loaders & Animations**: Add `react-native-reanimated` shared element transitions (avatar expanding into the detail screen) and shimmering skeleton loaders for the initial fetch, rather than a basic `ActivityIndicator`.
-5. **Robust Error Boundaries**: Wrap the navigation stack in a React Error Boundary to catch JS thread crashes and display a branded fallback screen.
+## 🔮 Future Enhancements
+While the current architecture is production-ready, the following enhancements could be implemented to further elevate the user experience:
+1. **RTK Query**: Rip out the manual `createAsyncThunk` boilerplate and replace it with RTK Query for built-in caching, polling, and automated lifecycle management.
+2. **Skeleton Loaders & Animations**: Add `react-native-reanimated` shared element transitions (avatar expanding into the detail screen) and shimmering skeleton loaders for the initial fetch, rather than a basic `ActivityIndicator`.
+3. **Robust Error Boundaries**: Wrap the navigation stack in a React Error Boundary to catch JS thread crashes and display a branded fallback screen.
