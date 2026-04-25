@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../store';
-import { resetData } from '../store/listSlice';
-import { RootStackParamList } from '../types';
-import { colors } from '../theme/colors';
+import { AppDispatch } from '@/store';
+import { resetData } from '@/store/listSlice';
+import { RootStackParamList } from '@/types';
+import { colors } from '@/theme/colors';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Settings'>;

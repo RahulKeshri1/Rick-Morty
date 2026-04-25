@@ -16,10 +16,10 @@ import FastImage from 'react-native-fast-image';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNetInfo } from '@react-native-community/netinfo';
 import debounce from 'lodash.debounce';
-import { RootState, AppDispatch } from '../store';
-import { fetchCharacters, setQueryString, listSelectors } from '../store/listSlice';
-import { CharacterItem, RootStackParamList } from '../types';
-import { colors } from '../theme/colors';
+import { RootState, AppDispatch } from '@/store';
+import { fetchCharacters, setQueryString, listSelectors } from '@/store/listSlice';
+import { CharacterItem, RootStackParamList } from '@/types';
+import { colors } from '@/theme/colors';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;

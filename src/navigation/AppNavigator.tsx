@@ -3,11 +3,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TouchableOpacity, Text } from 'react-native';
 
-import HomeScreen from '../screens/HomeScreen';
-import DetailScreen from '../screens/DetailScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-import { RootStackParamList } from '../types';
-import { colors } from '../theme/colors';
+import HomeScreen from '@/screens/HomeScreen';
+import DetailScreen from '@/screens/DetailScreen';
+import SettingsScreen from '@/screens/SettingsScreen';
+import { RootStackParamList } from '@/types';
+import { colors } from '@/theme/colors';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

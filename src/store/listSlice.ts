@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction, createEntityAdapter } from '@reduxjs/toolkit';
-import { ApiPayload, CharacterItem } from '../types';
-import { fetchCharactersApi } from '../services/api';
+import { ApiPayload, CharacterItem } from '@/types';
+import { fetchCharactersApi } from '@/services/api';
 import type { RootState } from './index';
 
 export const charactersAdapter = createEntityAdapter<CharacterItem>();

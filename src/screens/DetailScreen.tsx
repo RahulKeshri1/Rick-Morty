@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { RootStackParamList } from '../types';
-import { colors } from '../theme/colors';
+import { RootStackParamList } from '@/types';
+import { colors } from '@/theme/colors';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Details'>;

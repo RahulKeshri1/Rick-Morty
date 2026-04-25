@@ -5,6 +5,13 @@ module.exports = {
       "envName": "APP_ENV",
       "moduleName": "@env",
       "path": ".env"
+    }],
+    ['module-resolver', {
+      "root": ["./src"],
+      "extensions": [".ios.js", ".android.js", ".js", ".ts", ".tsx", ".json"],
+      "alias": {
+        "@": "./src"
+      }
     }]
   ]
 };
